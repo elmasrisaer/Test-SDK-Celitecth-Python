@@ -1,6 +1,6 @@
 {
   "liblabVersion": "2.1.2",
-  "date": "2024-04-16T15:09:53.991Z",
+  "date": "2024-04-16T15:49:36.380Z",
   "config": {
     "apiId": 673,
     "sdkName": "Celitech",
@@ -57,10 +57,10 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "4898/hooks.zip",
+      "bucketKey": "4899/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/673/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240416T150948Z&X-Amz-Expires=43200&X-Amz-Signature=86dabe00b4df14313070d63c7cc29f341a48ba385618a70818eb97b4e16efed4&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/673/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240416T154931Z&X-Amz-Expires=43200&X-Amz-Signature=fa843b09518cc0f6d2c54024e8c83394cc7b0367dd1bed6d62424bf1a76a919b&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
     "pypiPackageName": "saer",
