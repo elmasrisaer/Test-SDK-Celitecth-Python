@@ -1,10 +1,4 @@
-import requests
 import os
-from typing import Dict
-import datetime
-
-CURRENT_TOKEN = ""
-CURRENT_EXPIRY = -1
 
 
 class Request:
@@ -32,54 +26,17 @@ class Response:
 
 class CustomHook:
 
-    async def before_request(self, request: Request):
-        if request.url.endswith("/oauth/token"):
-            return
+    def before_request(self, request: Request, **kwargs):
+        client_id = os.getenv("CLIENT_ID", "")
+        client_secret = os.getenv("CLIENT_SECRET", "")
+        print("Request:", request)
+        print("clientId: ", client_id)
+        print("clientSecret: ", client_secret)
 
-        client_id = os.environ.get("CLIENT_ID", "")
-        client_secret = os.environ.get("CLIENT_SECRET", "")
+    def after_response(self, request: Request, response: Response, **kwargs):
+        print("after_response")
 
-        print("Client ID:", client_id)
-
-        if not client_id or not client_secret:
-            print("Missing CLIENT_ID and/or CLIENT_SECRET environment variables")
-            return
-
-        if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
-            input_data = {
-                "client_id": client_id,
-                "client_secret": client_secret,
-                "grant_type": "client_credentials",
-            }
-
-            token_response = await self.doPost(request, input_data, "/oauth2/token")
-            expires_in = token_response["data"].get("expires_in")
-            access_token = token_response["data"].get("access_token")
-
-            if not expires_in or not access_token:
-                print("There is an issue with getting the oauth token")
-                return
-
-            CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
-            CURRENT_TOKEN = access_token
-
-        authorization = f"Bearer {CURRENT_TOKEN}"
-        request.headers.update({"Authorization": authorization})
-
-    def doPost(self, input_data: Dict, url_endpoint: str) -> Dict:
-        full_url = f"https://auth.celitech.net/oauth2/token"
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-
-        try:
-            resp = requests.post(full_url, data=input_data, headers=headers)
-            resp.raise_for_status()
-            return resp.json()
-        except Exception as error:
-            print("Error in posting the request:", error)
-            return None
-
-    def after_response(self, request: Request, response: Response):
-        pass
-
-    def on_error(self, error: Exception, request: Request, response: Response):
-        pass
+    def on_error(
+        self, error: Exception, request: Request, response: Response, **kwargs
+    ):
+        print("on_error")
