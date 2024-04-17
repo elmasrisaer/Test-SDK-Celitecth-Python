@@ -1,5 +1,6 @@
 import os
 import time
+import asyncio
 import requests
 
 
@@ -33,7 +34,6 @@ class CustomHook:
         self.CURRENT_EXPIRY = 0
 
     async def before_request(self, request: Request):
-
         # Get the client_id and client_secret from environment variables
         client_id = os.getenv("CLIENT_ID", "")
         client_secret = os.getenv("CLIENT_SECRET", "")
@@ -54,7 +54,8 @@ class CustomHook:
                 }
 
                 # Fetch a fresh OAuth token
-                token_response = await self.do_post(input_data)
+                token_response = self.do_post(input_data)
+                await asyncio.sleep(3)
 
                 print("Token Response: ", token_response)
                 expires_in = token_response.get("expires_in")
@@ -71,7 +72,7 @@ class CustomHook:
             authorization = f"Bearer {self.CURRENT_TOKEN}"
             request.headers = {"Authorization": authorization}
 
-    def do_post(self, input_data: dict):
+    async def do_post(self, input_data: dict):
         full_url = "https://auth.celitech.net/oauth2/token"
 
         try:
@@ -81,7 +82,7 @@ class CustomHook:
                 headers={"Content-type": "application/x-www-form-urlencoded"},
                 verify=True,
             )
-
+            await asyncio.sleep(4)
             return response.json() if response.ok else None
         except Exception as error:
             print("Error in posting the request:", error)
