@@ -32,7 +32,7 @@ class CustomHook:
         self.CURRENT_TOKEN = None
         self.CURRENT_EXPIRY = 0
 
-    def before_request(self, request: Request):
+    async def before_request(self, request: Request):
 
         # Get the client_id and client_secret from environment variables
         client_id = os.getenv("CLIENT_ID", "")
@@ -54,7 +54,7 @@ class CustomHook:
                 }
 
                 # Fetch a fresh OAuth token
-                token_response = self.do_post(input_data)
+                token_response = await self.do_post(input_data)
 
                 print("Token Response: ", token_response)
                 expires_in = token_response.get("expires_in")
